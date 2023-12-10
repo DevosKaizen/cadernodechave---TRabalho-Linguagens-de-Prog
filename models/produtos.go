@@ -122,22 +122,21 @@ func ProxSala() []Produto {
 	p := Produto{}
 	produtos := []Produto{}
 
-	for proxSala.Next() {
-		var id int
-		var nome, descricao string
-		var preco float64
+	proxSala.Next()
+	var id int
+	var nome, descricao string
+	var preco float64
 
-		err = proxSala.Scan(&id, &nome, &descricao, &preco)
-		if err != nil {
-			panic(err.Error())
-		}
-		p.Id = id
-		p.Nome = nome
-		p.Descricao = descricao
-		p.Preco = preco
-
-		produtos = append(produtos, p)
+	err = proxSala.Scan(&id, &nome, &descricao, &preco)
+	if err != nil {
+		panic(err.Error())
 	}
+	p.Id = id
+	p.Nome = nome
+	p.Descricao = descricao
+	p.Preco = preco
+
+	produtos = append(produtos, p)
 
 	defer db.Close()
 	return produtos
