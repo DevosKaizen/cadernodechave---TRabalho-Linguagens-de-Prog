@@ -35,8 +35,6 @@ func Salas(w http.ResponseWriter, r *http.Request) {
 
 func New(w http.ResponseWriter, r *http.Request) {
 
-	
-
 	temp.ExecuteTemplate(w, "New", nil)
 }
 
@@ -47,9 +45,6 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		preco := r.FormValue("preco")
 		quantidade := r.FormValue("quantidade")
 
-		username := r.FormValue("username")
-		password := r.FormValue("password")
-
 		precoConvertidoParaFloat, err := strconv.ParseFloat(preco, 64)
 		if err != nil {
 			log.Println("Erro na conversão do preço")
@@ -59,17 +54,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 			log.Println("Erro na conversão do quantidade")
 		}
 
-		errUsuario := models.CriarNovoUsuario(username, password)
-		if errUsuario != nil {
-			log.Println("Erro ao criar usuario:", errUsuario)
-			http.Error(w, "Erro ao criar usuario. Tente novamente mais tarde.", http.StatusInternalServerError)
-			log.Println("deu erro no controllers")
-
-			return
-		}
-
 		models.CriarNovoProduto(nome, descricao, precoConvertidoParaFloat, quantidadeConvertidaParaInt)
-		models.CriarNovoUsuario(username, password)
 
 	}
 	http.Redirect(w, r, "/salas", 301)
